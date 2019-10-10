@@ -1,0 +1,20 @@
+<%= form_for @changeset, @action, [as: :params, class: "form"], fn f -> %>
+
+  <%= label f, :email %>
+  <%= email_input f, :email %>
+  <%= error_tag f, :email %>
+
+  <%= label f, :username %>
+  <%= text_input f, :username %>
+  <%= error_tag f, :username %>
+
+  <%= label f, :password %>
+  <%= password_input f, :password %>
+  <%= error_tag f, :password %>
+
+  <%= label f, :password_confirmation %>
+  <%= password_input f, :password_confirmation %>
+  <%= error_tag f, :password_confirmation %>
+
+  <div><%= submit "Sign up", class: "btn btn-primary" %></div>
+<% end %>

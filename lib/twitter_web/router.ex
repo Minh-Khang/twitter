@@ -17,6 +17,7 @@ defmodule TwitterWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/registration", RegistrationController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
