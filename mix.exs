@@ -45,7 +45,8 @@ defmodule Twitter.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:argon2_elixir, "~> 2.0"},
       {:email_checker, "~> 0.1.2"},
-      {:guardian, "~> 1.2"}
+      {:guardian, "~> 1.2"},
+      {:guardian_db, "~> 2.0"}
     ]
   end
 

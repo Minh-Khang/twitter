@@ -29,6 +29,12 @@ config :twitter, Twitter.Accounts.Guardian,
   issuer: "twitter",
   secret_key: "tyR2Pi2sTx6ipgO1Fd04pwqUeRI4MMNB55vPC8eYx+LLPCSsIPRdlqCGj9jT+XU5"
 
+config :guardian, Guardian.DB,
+  repo: Twitter.Repo, # Add your repository module
+  schema_name: "guardian_tokens", # default
+  token_types: [], # store all token types if not set
+  sweep_interval: 60 # default: 60 minutes
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

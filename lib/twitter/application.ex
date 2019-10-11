@@ -11,9 +11,10 @@ defmodule Twitter.Application do
       # Start the Ecto repository
       Twitter.Repo,
       # Start the endpoint when the application starts
-      TwitterWeb.Endpoint
+      TwitterWeb.Endpoint,
       # Starts a worker by calling: Twitter.Worker.start_link(arg)
       # {Twitter.Worker, arg},
+      {Guardian.DB.Token.SweeperServer, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
