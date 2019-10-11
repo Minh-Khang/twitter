@@ -41,6 +41,7 @@ defmodule TwitterWeb do
 
       import TwitterWeb.ErrorHelpers
       import TwitterWeb.Gettext
+      import TwitterWeb.ViewHelper
       alias TwitterWeb.Router.Helpers, as: Routes
     end
   end

@@ -13,11 +13,26 @@ defmodule TwitterWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", TwitterWeb do
-    pipe_through :browser
+  pipeline :auth do
+    plug Twitter.Accounts.Pipeline
+  end
 
-    get "/", PageController, :index
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
+  scope "/", TwitterWeb do
+    pipe_through [:browser, :auth]
+
     resources "/registration", RegistrationController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create]
+    delete "/sign_out", SessionController, :delete
+    get "/", PageController, :index
+  end
+
+  scope "/", TwitterWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
+    
   end
 
   # Other scopes may use custom stacks.

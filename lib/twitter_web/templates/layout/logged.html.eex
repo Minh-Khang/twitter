@@ -1,0 +1,10 @@
+<%= if logged_in?(@conn) do %>
+  <span>
+    <%= link "Sign out", to: Routes.session_path(@conn, :delete),method: :delete, class: "btn btn-danger btn-xs" %>
+  </span>
+
+<% else %>
+  <span><%= link "Create an account", to: Routes.registration_path(@conn, :new) %></span>
+  <span>|</span>
+  <span><%= link "Sign in", to: Routes.session_path(@conn, :new) %></span>
+<% end %>

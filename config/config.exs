@@ -25,6 +25,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :twitter, Twitter.Accounts.Guardian,
+  issuer: "twitter",
+  secret_key: "tyR2Pi2sTx6ipgO1Fd04pwqUeRI4MMNB55vPC8eYx+LLPCSsIPRdlqCGj9jT+XU5"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
