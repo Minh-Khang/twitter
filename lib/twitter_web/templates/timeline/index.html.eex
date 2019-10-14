@@ -1,0 +1,43 @@
+<h2>Listing Tweets</h2>
+
+<div>
+  <%= link "Sort", to: Routes.timeline_path(@conn, :index, sort: true), class: "btn btn-outline-info" %>
+  |
+  <%= link "Tweet", to: Routes.timeline_path(@conn, :new), class: "btn btn-outline-info" %>
+</div>
+
+<table class="table" id="timelineTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Body</th>
+      <th>Reply</th>
+      <th>Retweet</th>
+      <th>Like</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for tweet <- @tweets do %>
+      <tr id="tweet-<%= tweet.id %>">
+        <%= render "row.html", tweet: tweet , conn: @conn %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+    function clickLike(event) {
+      // event.preventDefault() ????? need ???     
+      url = event.dataset.url
+      $.ajax({
+      url: url,
+      type: 'POST',
+      headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
+      })
+      .done(resp => {
+      $(resp.tweet_id).html(resp.html)
+      })
+    }
+</script>

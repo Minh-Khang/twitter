@@ -1,0 +1,17 @@
+  <td><%= @tweet.id %></td>
+  <td><%= @tweet.user.username %></td>
+  <td><%= @tweet.body %></td>
+  <td><%= Enum.count(@tweet.replies) %></td>
+  <td><%= Enum.count(@tweet.retweets) %></td>
+  <td><%= Enum.count(@tweet.likes) %></td>
+
+  <td class="text-right">
+    <button class="btn btn-default btn-xs" id="reply-button">Reply</button>
+    <button class="btn btn-default btn-xs" id="retweet-button">Retweet</button>
+    <button 
+    	class="btn btn-default btn-xs" id="<%= @tweet.id %>-likeButton" onclick="clickLike(this)" 
+    	data-url="<%= Routes.timeline_path(@conn, :like, %{id: @tweet.id}) %>" >
+	    Like
+	  </button>
+  </td>
+

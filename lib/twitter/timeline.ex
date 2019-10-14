@@ -3,33 +3,6 @@ defmodule Twitter.Timeline do
 	alias Twitter.Repo
 	alias Twitter.Timeline.{Tweet, Like, Reply, Retweet, RetweetsWithComment}
 
-	def get_likes(tweet_id) do
-		query = 
-      from like in Like,
-        where: like.tweet_id == ^tweet_id,
-        select: count(like.id)
-
-    Repo.all(query)
-	end
-
-	def get_retweets(tweet_id) do
-		query = 
-      from retweet in Retweet,
-        where: retweet.tweet_id == ^tweet_id,
-        select: count(retweet.id)
-
-    Repo.all(query)
-	end
-
-	def get_replies(tweet_id) do
-		query = 
-      from reply in Reply,
-        where: reply.tweet_id == ^tweet_id,
-        select: count(reply.id)
-
-    Repo.all(query)
-	end
-
 	def list_replies(tweet_id, limit \\ 5) do
 		query = 
       from reply in Reply,
@@ -53,14 +26,31 @@ defmodule Twitter.Timeline do
     Repo.all(query)
 	end
 
-	def show_relate_tweets(limit \\ 20) do
+	def list_following_tweets(sort?, limit \\ 20) do
 		query = 
       from tweet in Tweet,
-        order_by: [desc: tweet.inserted_at],
         limit: ^limit,
-        select: %{body: tweet.body}
+        preload: [:user, :likes, :retweets, :replies]
+
+    query = case sort? do
+    	"true" -> 
+    		from tweet in query,
+    		join: like in assoc(tweet, :likes), 
+    		group_by: tweet.id,
+    		order_by: [desc: count(like.id)]
+
+    	"false" ->	
+    		from tweet in query,
+    		order_by: [desc: tweet.inserted_at]
+    end
 
     Repo.all(query)
+	end
+
+	def get_tweet(tweet_id) do 
+		Tweet
+		|> Repo.get(tweet_id) 
+		|> Repo.preload([:user, :likes, :retweets, :replies])
 	end
 
 	def create_tweet(user, attrs \\ %{}) do
@@ -70,9 +60,9 @@ defmodule Twitter.Timeline do
 		|> Repo.insert()
 	end
 
-	def create_like(user, tweet, attrs \\ %{}) do
+	def create_like(user, tweet_id, attrs \\ %{}) do
 		user
-		|> Ecto.build_assoc(:likes, tweet_id: tweet.id)
+		|> Ecto.build_assoc(:likes, tweet_id: tweet_id)
 		|> Like.changeset(attrs)
 		|> Repo.insert()
 	end

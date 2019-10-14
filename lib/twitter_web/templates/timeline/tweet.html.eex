@@ -1,0 +1,10 @@
+<h1>Tweet</h1>
+
+<%= form_for @changeset, Routes.timeline_path(@conn, :create), [as: :tweet, class: "form"], fn f -> %>
+
+	<%= label f, :body%>
+	<%= text_input f, :body %>
+	<%= error_tag f, :body %>
+
+<div><%= submit "Tweet", class: "btn btn-primary" %></div>
+<% end %>

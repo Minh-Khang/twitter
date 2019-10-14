@@ -13,7 +13,7 @@ defmodule TwitterWeb.RegistrationController do
         conn
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "You've sign up and sign in")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: Routes.timeline_path(conn, :index, sort: false))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
