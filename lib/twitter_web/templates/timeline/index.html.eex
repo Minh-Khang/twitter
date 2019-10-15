@@ -1,15 +1,15 @@
 <h2>Listing Tweets</h2>
 
 <div>
-  <%= link "Sort", to: Routes.timeline_path(@conn, :index, sort: true), class: "btn btn-outline-info" %>
+  <%= link "Sort", to: Routes.timeline_path(@conn, :index, sort: true) %>
   |
-  <%= link "Tweet", to: Routes.timeline_path(@conn, :new), class: "btn btn-outline-info" %>
+  <%= link "Tweet", to: Routes.timeline_path(@conn, :new) %>
 </div>
 
 <table class="table" id="timelineTable">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>Retweet By</th>
       <th>User</th>
       <th>Body</th>
       <th>Reply</th>
@@ -18,9 +18,9 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id=tableRow>
     <%= for tweet <- @tweets do %>
-      <tr id="tweet-<%= tweet.id %>">
+      <tr id="tweet-<%= tweet.id %>-<%= tweet.retweet_id %>">
         <%= render "row.html", tweet: tweet , conn: @conn %>
       </tr>
     <% end %>
@@ -31,13 +31,32 @@
     function clickLike(event) {
       // event.preventDefault() ????? need ???     
       url = event.dataset.url
+      console.log('clickLike', url)
       $.ajax({
       url: url,
       type: 'POST',
       headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
       })
       .done(resp => {
-      $(resp.tweet_id).html(resp.html)
+        // resp.params.map(param => console.log('id', param.id))
+        resp.params.map(param => $(`#${param.id}`).html(param.html))
       })
+    }
+
+    function clickRetweet(event) {
+      // event.preventDefault() ????? need ???     
+      url = event.dataset.url
+      console.log("clickRetweet", url)
+      $.ajax({
+      url: url,
+      type: 'POST',
+      headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
+      })
+      .done(resp => {
+      $("#tableRow").prepend(
+        `<tr id="${resp.id}">
+          ${resp.html}
+          </tr>`
+      )})
     }
 </script>

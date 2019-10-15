@@ -33,7 +33,8 @@ defmodule TwitterWeb.Router do
   scope "/", TwitterWeb do
     pipe_through [:browser, :auth, :ensure_auth]
     resources "/timeline", TimelineController
-    post "timeline/like", TimelineController, :like
+    post "/timeline/like", TimelineController, :like
+    post "/timeline/retweet", TimelineController, :retweet
   end
 
   # Other scopes may use custom stacks.
