@@ -7,7 +7,7 @@
     <title>Twitter · Phoenix Framework</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <input type="input" name="x-csrf-token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" name="x-csrf-token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
   </head>
   <body>
     <header>

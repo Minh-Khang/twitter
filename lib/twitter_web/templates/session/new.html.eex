@@ -1,4 +1,3 @@
-
 <%= form_for @changeset, Routes.session_path(@conn, :create), [as: :session, class: "form-signin"], fn f -> %>
   <h1>Log in</h1>
 

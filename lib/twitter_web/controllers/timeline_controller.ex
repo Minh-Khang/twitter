@@ -49,8 +49,6 @@ defmodule TwitterWeb.TimelineController do
 			  %{html: html, id: "tweet-#{tweet_id}-#{tweet.retweet_id}"}
 			end
 			json conn, %{params: params}
-			# html = Phoenix.View.render_to_string(TwitterWeb.TimelineView, "row.html", tweet: hd(tweet), conn: conn)
-			# json conn, %{html: html, id: "tweet-#{tweet_id}-#{hd(tweet).retweet_id}"}
 		end
 	end
 end

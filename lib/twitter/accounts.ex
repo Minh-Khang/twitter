@@ -2,6 +2,7 @@ defmodule Twitter.Accounts do
   import Ecto.Query
   alias Twitter.Repo
   alias Twitter.Accounts.User
+  alias Twitter.Accounts.Onetimepass
 
   def register(params), do: %User{} |> User.registration_changeset(params) |> Repo.insert
 
@@ -17,6 +18,29 @@ defmodule Twitter.Accounts do
         else
           {:error, :invalid_credentials}
         end
+    end
+  end
+
+  def email_valid?(email) do
+    case Repo.get_by(User, email: email) do
+      nil ->  {:error, :invalid_credentials}
+      user -> {:ok, user}
+    end
+  end
+
+  def insert_otp_token(params), do: %Onetimepass{} |> Onetimepass.changeset(params) |> Repo.insert
+  defp delete_otp_token(), do: Repo.delete_all(Onetimepass)
+
+  def verify_otp_token(token, email) do
+    with  onetimepass when not is_nil(onetimepass) <- Repo.get_by(Onetimepass, otp: token),
+          number when is_integer(number) <- OneTimePassEcto.Base.check_totp(token, onetimepass.secret, [interval_length: 120])
+    do
+      delete_otp_token()
+      user = Repo.get_by(User, email: email)
+      {:ok, user}
+    else
+      nil -> {:error, :invalid_credentials}
+      false -> {:error, :invalid_otp}
     end
   end
 

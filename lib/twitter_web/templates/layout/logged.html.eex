@@ -1,9 +1,11 @@
 <%= if logged_in?(@conn) do %>
   <span>
+  	<strong>Hello <%= current_user(@conn).username %> </strong>
     <%= link "Sign out", to: Routes.session_path(@conn, :delete), method: :delete %>
   </span>
 
 <% else %>
   <span><%= link "Create an account", to: Routes.registration_path(@conn, :new) %></span>
   <span><%= link "Sign in", to: Routes.session_path(@conn, :new) %></span>
+  <span><%= link "One Time Password", to: Routes.session_path(@conn, :otp) %></span>
 <% end %>

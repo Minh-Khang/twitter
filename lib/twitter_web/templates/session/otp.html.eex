@@ -1,0 +1,10 @@
+<%= form_for @changeset, Routes.session_path(@conn, :otp_login), 
+	[as: :otp, class: "form-signin"], fn f -> %>
+  <h1>OTP Login</h1>
+
+  <%= label f, :email%>
+  <%= text_input f, :email %>
+  <%= error_tag f, :email %>
+
+  <div><%= submit "Send OTP", class: "btn btn-primary" %></div>
+<% end %>

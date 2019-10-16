@@ -6,7 +6,7 @@
   <td><%= @tweet.count_like %></td>
 
   <td class="text-right">
-    <button>Reply</button>
+    <%# <button>Reply</button> %>
     <button 
       onclick="clickRetweet(this)" 
       data-url="<%= Routes.timeline_path(@conn, :retweet, tweet_id: @tweet.id) %>" >

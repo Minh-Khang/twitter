@@ -26,13 +26,17 @@ defmodule TwitterWeb.Router do
 
     resources "/registration", RegistrationController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create]
+    get "/sessions/otp", SessionController, :otp
+    get "/sessions/otp_login", SessionController, :otp_login
+    post "/sessions/otp_login", SessionController, :otp_login
+    post "/sessions/otp_submit", SessionController, :otp_submit
     delete "/sign_out", SessionController, :delete
     get "/", PageController, :index
   end
 
   scope "/", TwitterWeb do
     pipe_through [:browser, :auth, :ensure_auth]
-    resources "/timeline", TimelineController
+    resources "/timeline", TimelineController, only: [:index, :new, :create]
     post "/timeline/like", TimelineController, :like
     post "/timeline/retweet", TimelineController, :retweet
   end
