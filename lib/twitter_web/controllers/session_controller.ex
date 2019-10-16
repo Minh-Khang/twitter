@@ -19,7 +19,7 @@ defmodule TwitterWeb.SessionController do
   def otp_login(conn, %{"otp" => %{"email" => email}}) do
     with  {:ok, _} <- Accounts.email_valid?(email),
           secret <- OneTimePassEcto.Base.gen_secret(32),
-          otp <- OneTimePassEcto.Base.gen_totp(secret, [:interval_length, 120]),
+          otp <- OneTimePassEcto.Base.gen_totp(secret, [{:interval_length, 120}]),
           {:ok, _} <- Accounts.insert_otp_token(%{secret: secret, otp: otp})
     do
       IO.inspect(otp, label: "OTP code")

@@ -29,13 +29,21 @@ defmodule Twitter.Accounts do
   end
 
   def insert_otp_token(params), do: %Onetimepass{} |> Onetimepass.changeset(params) |> Repo.insert
-  defp delete_otp_token(), do: Repo.delete_all(Onetimepass)
+  defp delete_overtime_otp_token() do 
+    query = from u in Onetimepass, where: u.inserted_at <= datetime_add(^NaiveDateTime.utc_now, -120, "second")
+    Repo.all(query) |> IO.inspect(label: "LMK")
+    Repo.delete_all(query)
+  end
+
+  defp delete_logined_token(onetimepass), do: Repo.delete(onetimepass)
 
   def verify_otp_token(token, email) do
+    delete_overtime_otp_token()
+
     with  onetimepass when not is_nil(onetimepass) <- Repo.get_by(Onetimepass, otp: token),
           number when is_integer(number) <- OneTimePassEcto.Base.check_totp(token, onetimepass.secret, [interval_length: 120])
     do
-      delete_otp_token()
+      delete_logined_token(onetimepass)
       user = Repo.get_by(User, email: email)
       {:ok, user}
     else
