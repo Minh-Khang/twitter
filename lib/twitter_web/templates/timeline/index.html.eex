@@ -33,13 +33,13 @@
       url = event.dataset.url
       console.log('clickLike', url)
       $.ajax({
-      url: url,
-      type: 'POST',
-      headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
+        url: url,
+        type: 'POST',
+        headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
       })
       .done(resp => {
         // resp.params.map(param => console.log('id', param.id))
-        resp.params.map(param => $(`#${param.id}`).html(param.html))
+        resp.params.map(param => $("#"+param.id).html(param.html))
       })
     }
 
@@ -48,15 +48,15 @@
       url = event.dataset.url
       console.log("clickRetweet", url)
       $.ajax({
-      url: url,
-      type: 'POST',
-      headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
+        url: url,
+        type: 'POST',
+        headers: {"x-csrf-token": $("input[name='x-csrf-token']")[0].value}
       })
       .done(resp => {
-      $("#tableRow").prepend(
-        `<tr id="${resp.id}">
-          ${resp.html}
-          </tr>`
-      )})
+        resp.params.map(param => {
+          if ($("#"+param.id).length == 0)  $("#tableRow").prepend("<tr id="+param.id+">"+param.html+"</tr>")
+          else                              $("#"+param.id).html(param.html)
+        })
+      })
     }
 </script>

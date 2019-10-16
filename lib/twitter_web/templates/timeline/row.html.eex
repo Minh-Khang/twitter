@@ -9,14 +9,12 @@
     <button>Reply</button>
     <button 
       onclick="clickRetweet(this)" 
-      data-url="<%= Routes.timeline_path(@conn, :retweet, 
-      tweet_id: @tweet.id) %>" >
+      data-url="<%= Routes.timeline_path(@conn, :retweet, tweet_id: @tweet.id) %>" >
         Retweet
     </button>
     <button 
     	onclick="clickLike(this)" 
-    	data-url="<%= Routes.timeline_path(@conn, :like, 
-      tweet_id: @tweet.id, retweet_id: @tweet.retweet_id) %>" >
+    	data-url="<%= Routes.timeline_path(@conn, :like, tweet_id: @tweet.id) %>" >
 	     Like
 	  </button>
   </td>
