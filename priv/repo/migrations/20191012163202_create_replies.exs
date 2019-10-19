@@ -3,7 +3,7 @@ defmodule Twitter.Repo.Migrations.CreateReplies do
 
   def change do
     create table(:replies) do
-      add :body, :string
+      add :body, :text
       add :tweet_id, references(:tweets, on_delete: :nothing)
       add :user_id, references(:users, on_delete: :nothing)
 

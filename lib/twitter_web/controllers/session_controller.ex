@@ -6,7 +6,7 @@ defmodule TwitterWeb.SessionController do
     changeset = Accounts.change_user(%User{})
     maybe_user = Guardian.Plug.current_resource(conn)
     if maybe_user do
-      redirect(conn, to: Routes.page_path(conn, :index))
+      redirect(conn, to: Routes.timeline_path(conn, :index, sort: false))
     else
       render(conn, "new.html", changeset: changeset)
     end
@@ -39,7 +39,7 @@ defmodule TwitterWeb.SessionController do
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "You've signed in ")
         |> redirect(to: Routes.timeline_path(conn, :index, sort: false))
-      {:error, reason} ->   
+      {:error, reason} -> 
         conn
         |> put_flash(:error, reason)
         |> render("otp_login.html", email: email)

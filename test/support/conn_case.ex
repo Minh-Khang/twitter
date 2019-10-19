@@ -20,6 +20,7 @@ defmodule TwitterWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       alias TwitterWeb.Router.Helpers, as: Routes
+      import Twitter.TestHelper
 
       # The default endpoint for testing
       @endpoint TwitterWeb.Endpoint

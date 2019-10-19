@@ -47,7 +47,8 @@ defmodule Twitter.MixProject do
       {:email_checker, "~> 0.1.2"},
       {:guardian, "~> 1.2"},
       {:guardian_db, "~> 2.0"},
-      {:one_time_pass_ecto, "~> 1.0"}
+      {:one_time_pass_ecto, "~> 1.0"},
+      {:faker, "~> 0.13"}
     ]
   end
 

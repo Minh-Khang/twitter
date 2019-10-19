@@ -61,14 +61,6 @@ defmodule Twitter.Timeline do
 		union_all(add_retweets_column, ^retweets_all)
 	end
 
-	def list_replies(_tweet_id, _limit \\ 5) do
-		
-	end
-
-	def list_tweets(_user_id, _limit \\ 10) do
-		
-	end
-
 	def list_following_tweets(sort?, limit \\ 20) do
 		query = create_timeline_query()
 
@@ -77,7 +69,7 @@ defmodule Twitter.Timeline do
 				"true" -> 
 					from tweet in subquery(query),
 					order_by: [desc: tweet.count_like]
-				"false" -> 
+				_ -> 
 					from tweet in subquery(query),
 					order_by: [desc: tweet.inserted_at]
 			end
@@ -95,18 +87,6 @@ defmodule Twitter.Timeline do
 			where: tweet.id == ^tweet_id
 
 		Repo.all(from tweet in subquery(query))
-		|> IO.inspect(label: "get_updated_tweet")
-	end
-
-	def get_updated_retweet(tweet_id, retweet_id) do 
-		query = create_timeline_query()
-
-		query = 
-			from tweet in subquery(query),
-			where: tweet.id == ^tweet_id and tweet.retweet_id == ^retweet_id
-
-		Repo.all(from tweet in subquery(query))
-		|> IO.inspect(label: "get_updated_retweet")
 	end
 
 	def create_tweet(user, attrs \\ %{}) do
@@ -135,12 +115,11 @@ defmodule Twitter.Timeline do
 		|> Ecto.build_assoc(:retweets, tweet_id: tweet_id)
 		|> Retweet.changeset(attrs)
 		|> Repo.insert()
-		|> IO.inspect(label: "create_retweet")
 	end
 
-	def create_retweet_with_comment(user, tweet, attrs \\ %{}) do
+	def create_retweet_with_comment(user, tweet_id, attrs \\ %{}) do
 		user
-		|> Ecto.build_assoc(:retweets_with_comment, tweet_id: tweet.id)
+		|> Ecto.build_assoc(:retweets_with_comment, tweet_id: tweet_id)
 		|> RetweetsWithComment.changeset(attrs)
 		|> Repo.insert()
 	end	

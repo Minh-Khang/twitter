@@ -16,7 +16,9 @@ defmodule TwitterWeb.RegistrationController do
         |> redirect(to: Routes.timeline_path(conn, :index, sort: false))
 
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_flash(:info, "Invalid input")
+        |> render("new.html", changeset: changeset)
     end
   end
 end

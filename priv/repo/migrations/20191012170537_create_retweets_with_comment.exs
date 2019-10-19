@@ -3,7 +3,7 @@ defmodule Twitter.Repo.Migrations.CreateRetweetsWithComment do
 
   def change do
     create table(:retweets_with_comment) do
-      add :body, :string
+      add :body, :text
       add :tweet_id, references(:tweets, on_delete: :nothing)
       add :user_id, references(:users, on_delete: :nothing)
 

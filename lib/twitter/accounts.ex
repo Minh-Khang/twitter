@@ -31,7 +31,6 @@ defmodule Twitter.Accounts do
   def insert_otp_token(params), do: %Onetimepass{} |> Onetimepass.changeset(params) |> Repo.insert
   defp delete_overtime_otp_token() do 
     query = from u in Onetimepass, where: u.inserted_at <= datetime_add(^NaiveDateTime.utc_now, -120, "second")
-    Repo.all(query) |> IO.inspect(label: "LMK")
     Repo.delete_all(query)
   end
 

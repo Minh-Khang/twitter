@@ -53,7 +53,7 @@ defmodule Twitter.Accounts.User do
     validate_change(changeset, :email, fn :email, email ->
       case EmailChecker.valid?(email, [EmailChecker.Check.Format]) do
         true -> []
-        false -> [email: "Please enter email address"]
+        false -> [email: "Please enter valid email address"]
       end
     end)
   end
